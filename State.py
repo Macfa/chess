@@ -32,12 +32,11 @@ class State(object):
                 
         if self.board.ep_square is not None:
             assert zero[self.board.ep_square] == 0
-            print("excute a ep_square")
-#                     zero[self.board.ep_square] = 8
+            zero[self.board.ep_square] = 8
         zero = zero.reshape(8,8)
 
         # binary state
-        state = np.zeros((5,8,8),np.uint8)
+        state = np.zeros((5,8,8), np.uint8)
 
         # 0-3 columns to binary
         state[0] = (zero>>3)&1
@@ -50,7 +49,7 @@ class State(object):
 #         state[4] = (self.board.turn*1.0)
         
         # 257 bits according to readme
-#         return state
+        return state
 
     def edge(self):
         return list(self.board.legal_moves)
