@@ -35,4 +35,4 @@ def get_dataset(read_num=None):
         
 if __name__ == "__main__":
     X,Y = get_dataset(1000)
-    np.savez("./process/dataset_10M.npz", X, Y)
+    # np.savez("./process/dataset_10M.npz", X, Y)
