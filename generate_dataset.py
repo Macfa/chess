@@ -1,38 +1,41 @@
-import os
 import chess.pgn
+import os
 import numpy as np
-from state import State
 
-def get_dataset(read_num=None):
-    idx = 0
-    values = {'1/2-1/2':0, '0-1':-1, '1-0':1}
-    X,Y = [],[]
-    lists = os.listdir("data")
-    for i in lists:
-        games = open(os.path.join("./data/", i), 'r')
-        while 1:
-            game = chess.pgn.read_game(games)
+def generate_dataset(dataset_limit=None):
+    X,Y = [], []
+    has_played = 1
+    datas = os.listdir("data")
+    res_type = { "0-1": -1, "1/2-1/2":0, "1-0":1 }
+
+    for data in datas:
+        pgn = open(os.path.join("data", data))
+        while(1):   # below content get a indent
+            game = chess.pgn.read_game(pgn)
+
             if game is None:
                 break
-            result = game.headers["Result"]
-            if result not in values:
-                continue
-            result = values[result]
+            # print(game)
+
             board = game.board()
-            
-            for j, move in enumerate(game.main_line()):
-                ser = State(board).serialize()
+            res = game.headers["Result"]
+
+            if res in res_type:
+                res = res_type[res]
+
+            for move in game.main_line():
                 board.push(move)
-                X.append(ser)
-                Y.append(move)
-            print("Parsing Game : %d, got %d Examples" % (idx, len(X)))
-            if read_num is not None and len(X) > read_num:
-                return X,Y
-            idx += 1
-    X = np.array(X)
-    Y = np.array(Y)
-    return X,Y
-        
-if __name__ == "__main__":
-    X,Y = get_dataset(1000)
-    # np.savez("./process/dataset_10M.npz", X, Y)
+                X.append([move, res])
+            print("%d Games, %d Examples has done" % (has_played, len(X)))
+            if dataset_limit is None or len(X) > dataset_limit:
+                return X
+                # Y = res
+                # print(move)
+            
+            has_played += 1
+    # print(X)
+    
+    # second_game = chess.pgn.read_game(pgn)
+
+dataset = generate_dataset(20000)
+np.savez_compressed("process/dataset_2M")
