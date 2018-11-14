@@ -1,6 +1,7 @@
 import chess.pgn
 import os
 import numpy as np
+from state import State
 
 def generate_dataset(dataset_limit=None):
     X,Y = [], []
@@ -25,17 +26,19 @@ def generate_dataset(dataset_limit=None):
 
             for move in game.main_line():
                 board.push(move)
-                X.append([move, res])
-            print("%d Games, %d Examples has done" % (has_played, len(X)))
+                ser = State(board).serialize()
+                # print(ser)
+                X.append(ser)
+                Y.append(res)
+            print("Parsing %d Games, %d Examples has done" % (has_played, len(X)))
             if dataset_limit is None or len(X) > dataset_limit:
-                return X
-                # Y = res
-                # print(move)
-            
+                return X,Y
             has_played += 1
     # print(X)
     
     # second_game = chess.pgn.read_game(pgn)
 
-dataset = generate_dataset(20000)
-np.savez_compressed("process/dataset_2M")
+
+if __name__ == "__main__":
+    X,Y = generate_dataset(20000)
+    np.savez_compressed("process/dataset_2M", X, Y)

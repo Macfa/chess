@@ -1,70 +1,87 @@
-<<<<<<< HEAD
-=======
-#!/usr/bin/env python3
 import numpy as np
-import torch
 import torch.nn as nn
-import torch.nn.functional as F
-from torch.utils.data import Dataset
-from torch import optim
+from torch.utils.data import Dataset, DataLoader
+import torch
+import torch.optim as optim
 
-class ChessValueDataset(Dataset):
-  def __init__(self):
-    dat = np.load("process/dataset_1M.npz")
-    self.X = dat['arr_0']
-    self.Y = dat['arr_1']
-    print("loaded", self.X.shape, self.Y.shape)
+class CustomDataset(Dataset):
+    """Face Landmarks dataset."""
 
-  def __len__(self):
-    return self.X.shape[0]
+    def __init__(self):
+        loaded = np.load("process/dataset_2M.npz")
+        self.X = loaded["arr_0"]
+        self.Y = loaded["arr_1"]
+        print("Loaded ", self.X.shape, self.Y.shape)
 
-  def __getitem__(self, idx):
-    return (self.X[idx], self.Y[idx])
+    def __len__(self):
+        return len(self.X)
+
+    def __getitem__(self, idx):
+        return self.X[idx], self.Y[idx]
+        # pass
+    # Loaded  (20055, 5, 8, 8) (20055,)
+
 
 class Net(nn.Module):
-  def __init__(self):
-    super(Net, self).__init__()
-    self.a1 = nn.Conv2d(5, 16, kernel_size=3, padding=1)
-    self.a2 = nn.Conv2d(16, 16, kernel_size=3, padding=1)
-    self.a3 = nn.Conv2d(16, 32, kernel_size=3, stride=2)
+    # (in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True)
+    def __init__(self):
+        super(Net, self).__init__()
+        self.conv1 = nn.Conv2d(8, 8, kernel_size=1)
+        self.conv2 = nn.Conv2d(8, 8, kernel_size=1)
+        self.conv3 = nn.Conv2d(8, 8, kernel_size=1)
+        self.conv4 = nn.Conv2d(8, 8, kernel_size=1)
+        self.fc1 = nn.Linear(8 * 8 * 5, 8)
+        self.fc2 = nn.Linear(8 * 8 * 5, 8 * 2)
+        self.fc3 = nn.Linear(8 * 8 * 5, 8 * 3)
+        self.fc4 = nn.Linear(8 * 8 * 5, 8 * 4)
 
-    self.b1 = nn.Conv2d(32, 32, kernel_size=3, padding=1)
-    self.b2 = nn.Conv2d(32, 32, kernel_size=3, padding=1)
-    self.b3 = nn.Conv2d(32, 64, kernel_size=3, stride=2)
+    def forward(self, x):
+        x = self.pool(F.relu(self.conv1(x)))
+        x = self.pool(F.relu(self.conv2(x)))
+        x = x.view(-1, 16 * 5 * 5)
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = self.fc3(x)
+        return x
 
-    self.c1 = nn.Conv2d(64, 64, kernel_size=2, padding=1)
-    self.c2 = nn.Conv2d(64, 64, kernel_size=2, padding=1)
-    self.c3 = nn.Conv2d(64, 128, kernel_size=2, stride=2)
+if __name__ == "__main__":
+    custom = CustomDataset()
+    net = Net()
+    train_dataset = torch.utils.data.DataLoader(custom, batch_size=5)
 
-    self.d1 = nn.Conv2d(128, 128, kernel_size=1)
-    self.d2 = nn.Conv2d(128, 128, kernel_size=1)
-    self.d3 = nn.Conv2d(128, 128, kernel_size=1)
+    for i in train_dataset:
+        print(i)
 
-    self.last = nn.Linear(128, 1)
+    # Define a Loss function and optimizer
+    loss = nn.CrossEntropyLoss()
 
-  def forward(self, x):
-    x = F.relu(self.a1(x))
-    x = F.relu(self.a2(x))
-    x = F.relu(self.a3(x))
+    # criterion = nn.CrossEntropyLoss()
+    # optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
-    # 4x4
-    x = F.relu(self.b1(x))
-    x = F.relu(self.b2(x))
-    x = F.relu(self.b3(x))
 
-    # 2x2
-    x = F.relu(self.c1(x))
-    x = F.relu(self.c2(x))
-    x = F.relu(self.c3(x))
+    # Train the Network
+    
+# for epoch in range(2):  # loop over the dataset multiple times
 
-    # 1x128
-    x = F.relu(self.d1(x))
-    x = F.relu(self.d2(x))
-    x = F.relu(self.d3(x))
+#     running_loss = 0.0
+#     for i, data in enumerate(trainloader, 0):
+#         # get the inputs
+#         inputs, labels = data
 
-    x = x.view(-1, 128)
-    x = self.last(x)
+#         # zero the parameter gradients
+#         optimizer.zero_grad()
 
-    # value output
-    return F.tanh(x)
->>>>>>> 49a722731bc894eac6526c3d68bf3af1115b2786
+#         # forward + backward + optimize
+#         outputs = net(inputs)
+#         loss = criterion(outputs, labels)
+#         loss.backward()
+#         optimizer.step()
+
+#         # print statistics
+#         running_loss += loss.item()
+#         if i % 2000 == 1999:    # print every 2000 mini-batches
+#             print('[%d, %5d] loss: %.3f' %
+#                   (epoch + 1, i + 1, running_loss / 2000))
+#             running_loss = 0.0
+
+# print('Finished Training')
