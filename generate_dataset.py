@@ -34,11 +34,8 @@ def generate_dataset(dataset_limit=None):
             if dataset_limit is None or len(X) > dataset_limit:
                 return X,Y
             has_played += 1
-    # print(X)
-    
-    # second_game = chess.pgn.read_game(pgn)
-
+    return X,Y
 
 if __name__ == "__main__":
-    X,Y = generate_dataset(20000)
+    X,Y = generate_dataset(15000)
     np.savez_compressed("process/dataset_2M", X, Y)

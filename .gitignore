@@ -1,2 +1,5 @@
 KingBase2018-pgn.zip
 data/
+nets/
+proccess/
+__pycache__
