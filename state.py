@@ -43,6 +43,7 @@ class State():
 
             if self.board.ep_square is not None:
                 init_piece[self.board.ep_square] = 8
+                print(self.board.ep_square)
                 # print("able to use en passant")
 
 

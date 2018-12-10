@@ -37,5 +37,5 @@ def generate_dataset(dataset_limit=None):
     return X,Y
 
 if __name__ == "__main__":
-    X,Y = generate_dataset(15000)
+    X,Y = generate_dataset(25000)
     np.savez_compressed("process/dataset_2M", X, Y)
