@@ -14,7 +14,8 @@ class calcurator():
 		ser = s.serialize()[None]
 		ser = torch.tensor(ser).float()
 		output = self.model(ser)
-		print(float(torch.Tensor.item(output[0][0])))
+		# print(float(torch.Tensor.item(output[0][0][0][0])))
+		return float(torch.Tensor.item(output[0][0]))
 		# return output[]
 
 def getting_moves(s, c):
@@ -29,7 +30,7 @@ def getting_moves(s, c):
 if __name__ == "__main__":
 	s = State()
 	c = calcurator()
-	getting_moves(s,c)
+	# getting_moves(s,c)
 
 	
 
@@ -41,23 +42,14 @@ def hello():
   return ret.replace('start', s.board.fen())
 
 
-# @app.route("/test")
-# def test():
-#   ret = '<html><head>'
-#   # self play
-#   while not s.board.is_game_over():
-#     getting_moves(s, v)
-#     ret += '<img width=600 height=600 src="data:image/svg+xml;base64,%s"></img><br/>' % to_svg(s)
-#   	print(s.board.result())
-#   	return 1
-# app.run()
-
-	# print(output.shape)
-
-	# for idx, data in enumerate(output):
-	# 	print('lossed : ', torch.Tensor.item(data))
-	# for i in output:
-	# 	print(i)
-	# mode
-	# print('torch : ',torch.load("nets/value.pth"))
-	# print(model)
+@app.route("/test")
+def test():
+  ret = '<html><head>'
+  # self play
+  while not s.board.is_game_over():
+    move = getting_moves(s, c)
+    print("===================\n\n")
+    print(sorted(move, reverse=True))
+    ret += '<img width=600 height=600 src="data:image/svg+xml;base64,%s"></img><br/>' % to_svg(s)
+  	
+app.run()

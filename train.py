@@ -71,12 +71,14 @@ class Net(nn.Module):
         x = F.relu(self.d1(x))
         x = F.relu(self.d2(x))
         x = F.relu(self.d3(x))
-        # x = F.max_pool2d(x, 2)
+        x = F.max_pool2d(x, 2)
 
         x = x.view(-1, 128)
         x = self.last(x)
+        
         # x = x.view(-1, 128)
         # x = x.view(1, -1)
+        # print("Sigmoid : ", F.sigmoid(x))
         return F.sigmoid(x)
 
 
@@ -124,7 +126,7 @@ if __name__ == "__main__":
             print("%3d game loaded : %f" % (batch, all_loss/num_loss))
 
     print("%3d : %f" % (epoch, all_loss/num_loss))
-    torch.save(model.state_dict(), "nets/value.pth")
+    # torch.save(model.state_dict(), "nets/value.pth")
 
         # if (i+1) % 100 == 0:
             # print ('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}' 

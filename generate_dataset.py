@@ -21,9 +21,9 @@ def generate_dataset(dataset_limit=None):
             board = game.board()
             res = game.headers["Result"]
 
-            if res in res_type:
-                res = res_type[res]
-
+            if res not in res_type:
+                continue
+            res = res_type[res]
             for move in game.main_line():
                 board.push(move)
                 ser = State(board).serialize()
@@ -31,6 +31,8 @@ def generate_dataset(dataset_limit=None):
                 X.append(ser)
                 Y.append(res)
             print("Parsing %d Games, %d Examples has done" % (has_played, len(X)))
+            # print("X : \n%s\nY : \n%s\n" % (X,Y))
+            # print("RES : ", res)
             if dataset_limit is None or len(X) > dataset_limit:
                 return X,Y
             has_played += 1
@@ -38,4 +40,4 @@ def generate_dataset(dataset_limit=None):
 
 if __name__ == "__main__":
     X,Y = generate_dataset(25000)
-    np.savez_compressed("process/dataset_2M", X, Y)
+    # np.savez_compressed("process/dataset_2M", X, Y)

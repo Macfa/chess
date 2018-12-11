@@ -10,15 +10,20 @@ class State():
             self.board = chess.Board()
 
     def list(self):
-        return self.board.pseudo_legal_moves
+        return list(self.board.pseudo_legal_moves)
 
     def clean(self):
         return self.board.clear()
 
     def serialize(self):
+        assert self.board.is_valid()
+
+        # custom code that who's turn it is
+        # cus = {'True': "WHITE", 'False':"BLACK"}
+
         # binary state
-        state = np.zeros((5,8,8))
-        init_piece = np.zeros(64, int)
+        state = np.zeros((5,8,8), np.uint8)
+        init_piece = np.zeros(64, np.uint8)
 
         for idx in range(64):
             symbol = self.board.piece_at(idx)
@@ -26,26 +31,31 @@ class State():
             if symbol is not None:
                 init_piece[idx] = {"P": 1, "N": 2, "B": 3, "R": 4, "Q": 5, "K": 6, \
                  "p": 9, "n":10, "b":11, "r":12, "q":13, "k": 14}[symbol.symbol()]
+            # print("number : %d, symbol : %s" % (idx, init_piece[idx]))
+    
+        # print("symbol : \n%s" % init_piece.reshape(8,8))
 
+        if self.board.has_kingside_castling_rights(chess.WHITE):
+            assert init_piece[0] == 4
+            init_piece[0] = 7
+        if self.board.has_kingside_castling_rights(chess.BLACK):
+            assert init_piece[63] == 4+8
+            init_piece[63] = 7+8
+        if self.board.has_queenside_castling_rights(chess.WHITE):
+            assert init_piece[7] == 4
+            init_piece[7] = 7
+        if self.board.has_queenside_castling_rights(chess.BLACK):
+            assert init_piece[56] == 4+8
+            init_piece[56] = 7+8
 
-            if self.board.has_kingside_castling_rights(chess.WHITE):
-                init_piece[0] = 7
+        if self.board.ep_square is not None:
+            assert init_piece[self.board.ep_square] == 0
+            init_piece[self.board.ep_square] = 8
 
-            if self.board.has_kingside_castling_rights(chess.BLACK):
-                init_piece[63] = 7+8
-
-            if self.board.has_queenside_castling_rights(chess.WHITE):
-                init_piece[7] = 7
-
-            if self.board.has_queenside_castling_rights(chess.BLACK):
-                init_piece[56] = 7+8
-
-
-            if self.board.ep_square is not None:
-                init_piece[self.board.ep_square] = 8
-                print(self.board.ep_square)
-                # print("able to use en passant")
-
+        # print({True: "WHITE", False: "BLACK"}[self.board.turn])
+        # print("symbol : \n%s" % init_piece.reshape(8,8))
+        # turn = cus[self.board.turn]
+        # arr = list(self.board.turn)
 
         init_piece = init_piece.reshape(8,8)
         # print(init_piece)
@@ -60,6 +70,7 @@ class State():
         state[4] = (self.board.turn*1.0)
         # print(state)
 
+        # print(state)
         # 257 bits according to readme
         return state
 
