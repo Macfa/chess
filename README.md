@@ -1,17 +1,19 @@
 # neural network Game by chy
 
-## install
+## To use
 * modules:
 	* os
 	* numpy
+	* chess
+	* chess.pgn
 
 ## feature
 1. en passan:
 	* 3, 6 rank or None
 2. kingside castling:
-	* R,K moves 2 step to each others
+	* R,K Castling
 3. queenside castling:
-	* R,Q moves 2 step to each others
+	* R,Q Castling
 
 ## scenario
 * comm' soon
@@ -31,3 +33,5 @@
 	* get a model's data
 	* play ( WEB framework )
 
+## Reference Materials
+	* Link: [twitchchess](https://github.com/geohot/twitchchess)
