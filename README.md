@@ -33,5 +33,6 @@
 	* get a model's data
 	* play ( WEB framework )
 
-## Reference Materials
-	* Link: [twitchchess](https://github.com/geohot/twitchchess)
+## Helpful
+* ThanksTo
+	* Link : [geohot-twitchchess](https://github.com/geohot/twitchchess)
