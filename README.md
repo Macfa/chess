@@ -1,11 +1,11 @@
-### neural network Game by chy
+# neural network Game by chy
 
-# install
-modules:
-	os
+## install\
+modules:\
+	os\
 	numpy
 
-# feature
+## feature
 en passan:
 	3, 6 rank or None
 kingside castling:
@@ -13,10 +13,10 @@ kingside castling:
 queenside castling:
 	R,Q moves 2 step to each others.
 
-# scenario
+## scenario
 
 
-# files
+## files
 parsing.py:
 	load a data file
 	push a moves in file to board
