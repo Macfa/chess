@@ -1,6 +1,7 @@
 import chess.pgn
 import os
 import numpy as np
+from state import State
 
 def save_data(data_limit=None):
 	file_list = os.listdir('./data')
@@ -23,15 +24,17 @@ def save_data(data_limit=None):
 			board = game.board()
 
 			for move in game.main_line():
-				pushed = board.push(move)
-				X.append(pushed)
+				board.push(move)
+				X.append(State(board).serialize())
 				Y.append(res)
 			print("%d Game, %d parsing" % (score, len(X)))
 			if data_limit is not None and len(X) > data_limit:
-				return X
-		return X
+				return X,Y
+		return X,Y
 
 
 if __name__ == "__main__":
-	X = save_data(30000)
+	# X,Y = save_data(300)
+	X,Y = save_data(300000)
+	# print(X,Y)
 	np.savez('./proc/dataset.npz')
