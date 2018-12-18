@@ -37,6 +37,9 @@ class State():
 
 		init_state = np.reshape(init_state, (8,8))
 		# print(init_state)
+		# init_state = init_state>>3
+		
+
 		return init_state
 
 

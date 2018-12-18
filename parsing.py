@@ -30,11 +30,11 @@ def save_data(data_limit=None):
 			print("%d Game, %d parsing" % (score, len(X)))
 			if data_limit is not None and len(X) > data_limit:
 				return X,Y
-		return X,Y
 
 
 if __name__ == "__main__":
 	# X,Y = save_data(300)
 	X,Y = save_data(300000)
 	# print(X,Y)
-	np.savez('./proc/dataset.npz')
+	# np.save('./proc/dataset', (X,Y))
+	np.savez('./proc/dataset', (X,Y))
