@@ -11,6 +11,8 @@ class State():
 	def serialize(self):
 		# state = np.zeros((8,8), dtype=np.int8)
 		init_state = np.zeros(64, dtype=np.int8)
+		state = np.zeros((2,8,8), dtype=np.int8)
+		# print(state)
 
 		for idx in range(64):
 			symbol = self.board.piece_at(idx)
@@ -36,11 +38,14 @@ class State():
 			init_state[56] = 8+8
 
 		init_state = np.reshape(init_state, (8,8))
-		# print(init_state)
+		state[0] = init_state
+		state[1] = self.board.turn * 1.0
+		# print(state.shape)
 		# init_state = init_state>>3
+		# print(state)
 		
-
-		return init_state
+		return state
+		# return init_state
 
 
 if __name__ == "__main__":

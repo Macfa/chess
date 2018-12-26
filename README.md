@@ -5,7 +5,7 @@
 	* os
 	* numpy
 	* chess
-	* chess.pgn
+	* torch
 
 ## feature
 1. en passan:
@@ -27,13 +27,15 @@
 * state.py:
 	* inialize a board
 	* define a Method to use
-	* could move list
+	* move list
 
 * play.py:
 	* get a model's data
+	* setting a 
 	* play ( WEB framework )
 
 ## Helpful
 * ThanksTo
+	* Link : [chess databases](http://www.kingbase-chess.net)
 	* Link : [geohot-twitchchess](https://github.com/geohot/twitchchess)
-	* Link : [kingbase-chess.net][http://www.kingbase-chess.net]
+	* Link : [ko.khanAcademy](https://ko.khanacademy.org)

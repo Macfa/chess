@@ -27,20 +27,20 @@ class Net(nn.Module):
 	  x = self.fc3(x)
 	  return x
 
-	def num_flat_features(self, x):
-	  size = x.size()[1:]  # all dimensions except the batch dimension
-	  num_features = 1
-	  for s in size:
-	      num_features *= s
-	  return num_features
-
 	def load_file(self, file):
-		print(file['arr_0'])
-		return 1
+		self.data = [ file['arr_0'], file['arr_1'] ]
+		# self.data[0] = 
+		# self.data[1] = 
+		# print(self.data.shape)
+		return self.data[0], self.data[1]
 
+	def print_shape(self):
+		print(self.data[0].shape, self.data[1].shape)
 
 if __name__ == "__main__":
 	# loaded = np.load("proc/dataset.npz")
 	net = Net()
-	net.load_file(np.load("proc/dataset.npz"))
+	loaded = np.load("proc/dataset.npz")
+	datas = net.load_file(loaded)
+	# net.print_shape()
 	print(net)

@@ -28,13 +28,15 @@ def save_data(data_limit=None):
 				X.append(State(board).serialize())
 				Y.append(res)
 			print("%d Game, %d parsing" % (score, len(X)))
+			# print(X.shape)
 			if data_limit is not None and len(X) > data_limit:
 				return X,Y
 
 
 if __name__ == "__main__":
-	# X,Y = save_data(300)
-	X,Y = save_data(300000)
+	X,Y = save_data(300)
+	# X,Y = save_data(10000)
+	# X,Y = save_data(300000)
 	# print(X,Y)
 	# np.save('./proc/dataset', (X,Y))
-	np.savez('./proc/dataset', (X,Y))
+	np.savez('./proc/dataset', X,Y)
