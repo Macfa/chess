@@ -38,4 +38,5 @@
 * ThanksTo
 	* Link : [chess databases](http://www.kingbase-chess.net)
 	* Link : [geohot-twitchchess](https://github.com/geohot/twitchchess)
-	* Link : [ko.khanAcademy](https://ko.khanacademy.org)
+	* Link : [learn Math](https://ko.khanacademy.org)
+	* Link : [learn deeplearning](https://www.edwith.org)
