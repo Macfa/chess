@@ -16,22 +16,25 @@
 	* R,Q Castling
 
 ## scenario
-* comm' soon
+* comm'n soon
 
 ## files
 * parsing.py:
-	* load a data file
-	* push a moves in file to board
-	* save a data
+	* load a file about data in game
+	* push a moves to game board 
+	* save a file with board
 
 * state.py:
 	* inialize a board
 	* define a Method to use
-	* move list
+	* convert piece to vector
+	* return vector
 
 * play.py:
-	* get a model's data
-	* setting a 
+	* define a network
+	* load a file that defined in parsing.py
+	* define a loss function
+	* input's data to network
 	* play ( WEB framework )
 
 ## Helpful
