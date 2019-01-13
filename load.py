@@ -27,12 +27,19 @@ class Net(nn.Module):
 	  x = self.fc3(x)
 	  return x
 
-	
-		
+class loaded_file():
+	def __init__(self):
+		f = np.load("proc/dataset.npz")
+		self.data = f['arr_0'], f['arr_1']
+
+	def shape(self):
+		print(self.data[0].shape, self.data[1].shape)
+
+	def datas(self):
+		return self.data[0], self.data[1]
 
 if __name__ == "__main__":
+	load = loaded_file()
+	# load.shape()
+	d,r = load.datas()
 	net = Net()
-	loaded = np.load("proc/dataset.npz")
-	datas = net.load_file(loaded)
-	print(print_shape)
-	# print(net)

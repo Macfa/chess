@@ -40,13 +40,10 @@ class State():
 		init_state = np.reshape(init_state, (8,8))
 		state[0] = init_state
 		state[1] = self.board.turn * 1.0
-		# print(state.shape)
-		# init_state = init_state>>3
-		# print(state)
-		
-		return state
-		# return init_state
 
+		print(state.shape)
+		print(init_state.shape)
+		return state
 
 if __name__ == "__main__":
 	s = State()
